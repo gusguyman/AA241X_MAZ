@@ -60,8 +60,21 @@ extern "C" {
  */
 struct aah_params {
 
-	float example_high_param;
-	float proportional_roll_gain;
+        float proportional_yaw_gain;
+        float integrator_yaw_gain;
+        float derivative_yaw_gain;
+
+        float proportional_roll_gain;
+        float integrator_roll_gain;
+        float derivative_roll_gain;
+
+        float proportional_pitch_gain;
+        float integrator_pitch_gain;
+        float derivative_pitch_gain;
+
+        float proportional_altitude_gain;
+        float integrator_altitude_gain;
+        float derivative_altitude_gain;
 
 	// TODO: add custom parameter variable names here......
 
@@ -79,8 +92,21 @@ struct aah_params {
  */
 struct aah_param_handles {
 
-	param_t example_high_param;
-	param_t proportional_roll_gain;
+        param_t proportional_yaw_gain;
+        param_t integrator_yaw_gain;
+        param_t derivative_yaw_gain;
+
+        param_t proportional_roll_gain;
+        param_t integrator_roll_gain;
+        param_t derivative_roll_gain;
+
+        param_t proportional_pitch_gain;
+        param_t integrator_pitch_gain;
+        param_t derivative_pitch_gain;
+
+        param_t proportional_altitude_gain;
+        param_t integrator_altitude_gain;
+        param_t derivative_altitude_gain;
 
 	// TODO: add custom parameter variable names here.......
 
