@@ -33,7 +33,7 @@ void constant_roll();
 void constant_pitch();
 void constant_altitude();
 void constant_heading();
-void constant_heading&altitude();
+void constant_heading_altitude();
 
 
 #endif // AA241X_HIGH_BASIC_CONTROL_LAW_H

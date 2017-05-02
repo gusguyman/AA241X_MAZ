@@ -46,6 +46,7 @@
 // include header file
 #include "aa241x_high_control_law.h"
 #include "aa241x_high_aux.h"
+#include "aa241x_high_basic_control_law.h"
 
 // needed for variable names
 using namespace aa241x_high;
@@ -66,7 +67,7 @@ void flight_control() {
 
 
 	// An example of how to run a one time 'setup' for example to lock one's altitude and heading...
-	if (hrt_absolute_time() - previous_loop_timestamp > 500000.0f) { // Run if more than 0.5 seconds have passes since last loop, 
+	if (hrt_absolute_time() - previous_loop_timestamp > 500000.0f) { // Run if more than 0.5 seconds have passes since last loop,
 																	 //	should only occur on first engagement since this is 59Hz loop
 		yaw_desired = yaw; 							// yaw_desired already defined in aa241x_high_aux.h
 		altitude_desired = position_D_baro; 		// altitude_desired needs to be declared outside flight_control() function
@@ -85,7 +86,7 @@ void flight_control() {
 
 	// // Make a really simple proportional roll stabilizer // //
 	//
-	
+
 	roll_desired = 0.0f; // roll_desired already exists in aa241x_high_aux so no need to repeat float declaration
 
 	// Now use your parameter gain and multiply by the error from desired
@@ -105,7 +106,7 @@ void flight_control() {
 	// where zero is no actuation, and -1,1 are full throw in either the + or - directions
 
 	// Set output of roll servo to the control law output calculated above
-	roll_servo_out = proportionalRollCorrection;		
+	roll_servo_out = proportionalRollCorrection;
 	// as an example, just passing through manual control to everything but roll
 	pitch_servo_out = -man_pitch_in;
 	yaw_servo_out = man_yaw_in;
