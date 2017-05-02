@@ -173,6 +173,64 @@ void constant_altitude() {
     throttle_servo_out = man_throttle_in;
 }
 
+// Constant altitude control law
+// Based on 271A - HW3
+
+
+altitude_desired = 0.0f; // Altitude desired has to be defined outside the control law
+
+void constant_altitude_bis(previous_int_h, previous_err_h, previous_int_th, previous_err_th) {
+
+    Kp_h = aah_parameters.proportional_altitude_gain;
+    Ki_h = aah_parameters.integrator_altitude_gain;
+    Kd_h = aah_parameters.derivative_altitude_gain;
+
+    Kp_th = aah_parameters.proportional_th_gain;
+    Ki_th = aah_parameters.integrator_th_gain;
+    Kd_th = aah_parameters.derivative_th_gain;
+
+    integral = 0;
+    err = 0;
+
+    // Define integral and derivative of h
+    err_h = altitude_desired - position_D_baro; // Error in altitude
+    int_h  = previous_int_h + err_h; // 
+    previous_int_h = int_h;
+
+    der  = err_h- previous_err_h;
+    previous_err_h = err_h;
+
+    float K_h = Kp_h*err_h + (Ki_h*int_h*dt) + (Kd_h*der/dt);
+
+    th_desired = K_h
+
+    // Define integral and derivative of theta
+    err_th = th_desired - pitch;
+    int_th  = previous_int_th + err_th;
+    previous_int_th = int_th;
+
+    der  = err_th - previous_err_th;
+    previous_err_th = err_th;
+
+    dt = 0.001f;
+
+    float K_th = Kp_th*err_th + (Ki_th*int_th*dt) + (Kd_th*der_th/dt)
+
+    pitch_servo_out = K_th
+    
+
+
+    //TO BE MODIFIED
+    // /!\ h_dot = U0*(theta - alpha) so we need angle of attack alpha (= w/U0)
+    //and vertical velocity h_dot to find pitch output /!\
+
+    roll_servo_out = man_roll_in;
+    yaw_servo_out = man_yaw_in;
+    throttle_servo_out = man_throttle_in;
+
+
+}
+
 // // Make a heading stabilizer // //
 
 void constant_heading() {
