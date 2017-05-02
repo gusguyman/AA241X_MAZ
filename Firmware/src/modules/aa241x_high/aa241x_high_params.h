@@ -76,6 +76,10 @@ struct aah_params {
         float integrator_altitude_gain;
         float derivative_altitude_gain;
 
+        float proportional_th_gain;
+        float integrator_th_gain;
+        float derivative_th_gain;
+
 	// TODO: add custom parameter variable names here......
 
 };
@@ -107,6 +111,10 @@ struct aah_param_handles {
         param_t proportional_altitude_gain;
         param_t integrator_altitude_gain;
         param_t derivative_altitude_gain;
+
+        param_t proportional_th_gain;
+        param_t integrator_th_gain;
+        param_t derivative_th_gain;
 
 	// TODO: add custom parameter variable names here.......
 
