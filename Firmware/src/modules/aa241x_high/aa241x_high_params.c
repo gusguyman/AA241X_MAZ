@@ -151,9 +151,9 @@ int aah_parameters_update(const struct aah_param_handles *h, struct aah_params *
 	param_get(h->integrator_pitch_gain, &(p->integrator_pitch_gain));
 	param_get(h->derivative_pitch_gain, &(p->derivative_pitch_gain));
 
-	param_get(h->proportional_pitch_gain, &(p->proportional_pitch_gain));
-	param_get(h->integrator_pitch_gain, &(p->integrator_pitch_gain));
-	param_get(h->derivative_pitch_gain, &(p->derivative_pitch_gain));
+	param_get(h->proportional_altitude_gain, &(p->proportional_altitude_gain));
+	param_get(h->integrator_altitude_gain, &(p->integrator_altitude_gain));
+	param_get(h->derivative_altitude_gain, &(p->derivative_altitude_gain));
 
 	param_get(h->proportional_th_gain, &(p->proportional_th_gain));
 	param_get(h->integrator_th_gain, &(p->integrator_th_gain));

@@ -31,20 +31,18 @@ float altitude = 0.0f;
 
 // // Make a PID yaw stabilizer // //
 
-void constant_yaw(float dt, float yaw_desired = 0.0f) {
+void constant_yaw(float dt, float yaw_desired = 0.0f, float previous_err = 0.0f, float integral = 0.0f) {
 
 //    float yaw_desired = 0.0f; // yaw_desired already exists in aa241x_high_aux so no need to repeat float declaration
 
     float Kp = aah_parameters.proportional_yaw_gain;
     float Ki = aah_parameters.integrator_yaw_gain;
     float Kd = aah_parameters.derivative_yaw_gain;
-    float integral = 0;
-    float err = 0;
 
-    float new_err = yaw_desired - yaw;
-    float integral  = integral + new_err;
-    float der  = new_err - err;
-    float err = new_err;
+    float err = yaw_desired - yaw;
+    float integral  = integral + err;
+    float der  = err - previous_err;
+    previous_err = err;
 
 //    float dt = 1.0 / 60.0;//execution time of loop.
     float PIDYawCorrection = Kp*err + (Ki*integral*dt) + (Kd*der/dt);
@@ -70,18 +68,16 @@ void constant_yaw(float dt, float yaw_desired = 0.0f) {
 
 // // Make a PID roll stabilizer // //
 
-void constant_roll(float dt, float roll_desired = 0.0f) {
+void constant_roll(float dt, float roll_desired = 0.0f, float integral = 0.0f, float previous_err = 0.0f) {
 
     float Kp = aah_parameters.proportional_roll_gain;
     float Ki = aah_parameters.integrator_roll_gain;
     float Kd = aah_parameters.derivative_roll_gain;
-    float integral = 0.0;
-    float err = 0.0;
 
-    float new_err = roll_desired - roll;
+    float err = roll_desired - roll;
     float integral  = integral + new_err;
-    float der  = new_err - err;
-    float err = new_err;
+    float der  = err - previous_err;
+    previous_err = err;
 
 //    dt = ;
     float PIDRollCorrection = Kp*err + (Ki*integral*dt) + (Kd*der/dt);
@@ -102,18 +98,16 @@ void constant_roll(float dt, float roll_desired = 0.0f) {
 
 // // Make a PID pitch stabilizer // //
 
-void constant_pitch(float dt, float pitch_desired = 0.0f) {
+void constant_pitch(float dt, float pitch_desired = 0.0f, float previous_err = 0.0f, float integral = 0.0f) {
 
     float Kp = aah_parameters.proportional_pitch_gain;
     float Ki = aah_parameters.integrator_pitch_gain;
     float Kd = aah_parameters.derivative_pitch_gain;
-    float integral = 0;
-    float err = 0;
 
-    float new_err = pitch_desired - pitch;
-    float integral  = integral + new_err;
-    float der  = new_err - err;
-    float err = new_err;
+    float err = pitch_desired - pitch;
+    float integral  = integral + err;
+    float der  = err - previous_err;
+    previous_err = err;
 
     float PIDPitchCorrection = Kp*err + (Ki*integral*dt) + (Kd*der/dt);
 
@@ -130,39 +124,6 @@ void constant_pitch(float dt, float pitch_desired = 0.0f) {
     throttle_servo_out = man_throttle_in;
 }
 
-// // Make a PID altitude stabilizer // //
-
-void constant_altitude(float dt, float altitude_desired = 0.0f) {
-
-    float Kp = aah_parameters.proportional_altitude_gain;
-    float Ki = aah_parameters.integrator_altitude_gain;
-    float Kd = aah_parameters.derivative_altitude_gain;
-    float integral = 0;
-    float err = 0;
-
-    float new_err = altitude_desired - altitude;
-    float integral  = integral + new_err;
-    float der  = new_err - err;
-    float err = new_err;
-
-    float PIDAltitudeCorrection = Kp*err + (Ki*integral*dt) + (Kd*der/dt);
-
-    if (PIDAltitudeCorrection > 1.0f) {
-            PIDAltitudeCorrection = 1.0f;
-    } else if (PIDAltitudeCorrection < -1.0f ) {
-            PIDAltitudeCorrection = -1.0f;
-    }
-
-    //TO BE MODIFIED
-    // /!\ h_dot = U0*(theta - alpha) so we need angle of attack alpha (= w/U0)
-    //and vertical velocity h_dot to find pitch output /!\
-
-    pitch_servo_out = -man_pitch_in;
-
-    roll_servo_out = man_roll_in;
-    yaw_servo_out = man_yaw_in;
-    throttle_servo_out = man_throttle_in;
-}
 
 // Constant altitude control law
 // Based on 271A - HW3
@@ -170,7 +131,7 @@ void constant_altitude(float dt, float altitude_desired = 0.0f) {
 
 // Altitude desired has to be defined outside the control law
 
-void constant_altitude_bis(float dt, float previous_int_h, float previous_err_h, float previous_int_th, float previous_err_th, float altitude_desired = 0.0f) {
+void constant_altitude(float dt, float previous_int_h = 0.0f, float previous_err_h = 0.0f, float previous_int_th = 0.0f, float previous_err_th = 0.0f, float altitude_desired = 0.0f) {
 
     float Kp_h = aah_parameters.proportional_altitude_gain;
     float Ki_h = aah_parameters.integrator_altitude_gain;
@@ -180,8 +141,6 @@ void constant_altitude_bis(float dt, float previous_int_h, float previous_err_h,
     float Ki_th = aah_parameters.integrator_th_gain;
     float Kd_th = aah_parameters.derivative_th_gain;
 
-    float integral = 0;
-    float err = 0;
 
     // Define integral and derivative of h
     float err_h = altitude_desired - position_D_baro; // Error in altitude
@@ -191,9 +150,7 @@ void constant_altitude_bis(float dt, float previous_int_h, float previous_err_h,
     float der  = err_h- previous_err_h;
     float previous_err_h = err_h;
 
-    float K_h = Kp_h*err_h + (Ki_h*int_h*dt) + (Kd_h*der/dt);
-
-    float th_desired = K_h
+    float th_desired = Kp_h*err_h + (Ki_h*int_h*dt) + (Kd_h*der/dt);
 
     // Define integral and derivative of theta
     float err_th = th_desired - pitch;
@@ -203,15 +160,7 @@ void constant_altitude_bis(float dt, float previous_int_h, float previous_err_h,
     der  = err_th - previous_err_th;
     float previous_err_th = err_th;
 
-    float K_th = Kp_th*err_th + (Ki_th*int_th*dt) + (Kd_th*der_th/dt)
-
-    pitch_servo_out = K_th
-
-
-
-    //TO BE MODIFIED
-    // /!\ h_dot = U0*(theta - alpha) so we need angle of attack alpha (= w/U0)
-    //and vertical velocity h_dot to find pitch output /!\
+    pitch_servo_out = Kp_th*err_th + (Ki_th*int_th*dt) + (Kd_th*der_th/dt)
 
     roll_servo_out = man_roll_in;
     yaw_servo_out = man_yaw_in;

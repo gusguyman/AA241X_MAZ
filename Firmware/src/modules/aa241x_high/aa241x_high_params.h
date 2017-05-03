@@ -130,6 +130,28 @@ int aah_parameters_init(struct aah_param_handles *h);
  * Update all parameters
  *
  */
+
+        proportional_yaw_gain = 1.0f;
+        integrator_yaw_gain = 0.0f;
+        derivative_yaw_gain = 0.0f;
+
+        proportional_roll_gain = 1.0f;
+        integrator_roll_gain = 0.0f;
+        derivative_roll_gain = 0.0f;
+
+        proportional_pitch_gain = 1.0f;
+        integrator_pitch_gain = 0.0f;
+        derivative_pitch_gain = 0.0f;
+
+        proportional_altitude_gain = 1.0f;
+        integrator_altitude_gain = 0.0f;
+        derivative_altitude_gain = 0.0f;
+
+        proportional_th_gain = 1.0f;
+        integrator_th_gain = 0.0f;
+        derivative_th_gain = 0.0f;
+
+        
 int aah_parameters_update(const struct aah_param_handles *h, struct aah_params *p);
 
 #ifdef __cplusplus
