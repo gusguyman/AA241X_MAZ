@@ -72,9 +72,9 @@ struct aah_params {
         float integrator_pitch_gain;
         float derivative_pitch_gain;
 
-        float proportional_altitude_gain;
-        float integrator_altitude_gain;
-        float derivative_altitude_gain;
+        float proportional_alt_gain;
+        float integrator_alt_gain;
+        float derivative_alt_gain;
 
         float proportional_th_gain;
         float integrator_th_gain;
@@ -108,9 +108,9 @@ struct aah_param_handles {
         param_t integrator_pitch_gain;
         param_t derivative_pitch_gain;
 
-        param_t proportional_altitude_gain;
-        param_t integrator_altitude_gain;
-        param_t derivative_altitude_gain;
+        param_t proportional_alt_gain;
+        param_t integrator_alt_gain;
+        param_t derivative_alt_gain;
 
         param_t proportional_th_gain;
         param_t integrator_th_gain;
@@ -143,9 +143,9 @@ int aah_parameters_init(struct aah_param_handles *h);
         integrator_pitch_gain = 0.0f;
         derivative_pitch_gain = 0.0f;
 
-        proportional_altitude_gain = 1.0f;
-        integrator_altitude_gain = 0.0f;
-        derivative_altitude_gain = 0.0f;
+        proportional_alt_gain = 1.0f;
+        integrator_alt_gain = 0.0f;
+        derivative_alt_gain = 0.0f;
 
         proportional_th_gain = 1.0f;
         integrator_th_gain = 0.0f;

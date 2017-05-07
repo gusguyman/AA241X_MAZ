@@ -133,9 +133,9 @@ void constant_pitch(float dt, float pitch_desired = 0.0f, float previous_err = 0
 
 void constant_altitude(float dt, float previous_int_h = 0.0f, float previous_err_h = 0.0f, float previous_int_th = 0.0f, float previous_err_th = 0.0f, float altitude_desired = 0.0f) {
 
-    float Kp_h = aah_parameters.proportional_altitude_gain;
-    float Ki_h = aah_parameters.integrator_altitude_gain;
-    float Kd_h = aah_parameters.derivative_altitude_gain;
+    float Kp_h = aah_parameters.proportional_alt_gain;
+    float Ki_h = aah_parameters.integrator_alt_gain;
+    float Kd_h = aah_parameters.derivative_alt_gain;
 
     float Kp_th = aah_parameters.proportional_th_gain;
     float Ki_th = aah_parameters.integrator_th_gain;
