@@ -1,0 +1,26 @@
+#!nsh
+#
+# AA241x apps for fixed wing
+#
+
+#
+# Start the attitude and position estimator
+#
+#ekf_att_pos_estimator start
+ekf2 start
+
+#
+# Start flight controller
+#
+aa241x_high start
+aa241x_low start
+aa241x_mission start
+
+#
+# Start Land Detector
+#
+land_detector start fixedwing
+
+#
+# Misc apps
+#
