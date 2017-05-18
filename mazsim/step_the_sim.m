@@ -14,23 +14,30 @@ function vars = step_the_sim(dt, vars, i)
     %TODO - Need aircraft dynamics and/or controller to update these
     vars.axes.pitch_rate(i) = 0;
     vars.axes.roll_rate(i) = 0;
-    vars.axes.yaw_rate(i) = 0;
+    
+%     vars.axes.yaw_desired(i) = 90;
+    vars.axes.yaw_desired(i) = atan2d(...
+        vars.pos.E_desired(i-1) - vars.pos.E(i-1), ...
+        vars.pos.N_desired(i-1) - vars.pos.N(i-1));
+    vars.axes.yaw_rate(i) = Yaw_Controller(vars, i);
     
     vars.forces.L(i) = Lift(vars.v.N(i-1), vars.v.E(i-1), vars.axes.pitch(i-1));
     vars.forces.D(i) = Drag(vars.v.N(i-1), vars.v.E(i-1), vars.axes.pitch(i-1));
     
     vars.forces.T(i) = Thrust(vars.forces.D(i-1));
     
-    vars.a.D(i) = -vars.forces.L(i-1)*cos(vars.axes.pitch(i-1)) + ...
+    vars.a.D(i) = -vars.forces.L(i-1)*cosd(vars.axes.pitch(i-1)) + ...
         vars.forces.W(i-1) -...
-        vars.forces.T(i-1) * sin(vars.axes.pitch(i-1)) +...
-        vars.forces.D(i-1) * sin(vars.axes.pitch(i-1));
+        vars.forces.T(i-1) * sind(vars.axes.pitch(i-1)) +...
+        vars.forces.D(i-1) * sind(vars.axes.pitch(i-1));
     
-    a_xy = vars.forces.T(i-1) * cos(vars.axes.pitch(i-1)) - ...
-        vars.forces.D(i-1) * cos(vars.axes.pitch(i-1)) - ...
-        vars.forces.L(i-1) * cos(vars.axes.pitch(i-1));
+    a_xy = vars.forces.T(i-1) * cosd(vars.axes.pitch(i-1)) - ...
+        vars.forces.D(i-1) * cosd(vars.axes.pitch(i-1)) - ...
+        vars.forces.L(i-1) * sind(vars.axes.pitch(i-1));
     
-    vars.a.N(i) = a_xy * cos(vars.axes.yaw(i-1));
-    vars.a.E(i) = a_xy * sin(vars.axes.yaw(i-1));
+    vars.a.N(i) = a_xy * cosd(vars.axes.yaw(i-1));
+    vars.a.E(i) = a_xy * sind(vars.axes.yaw(i-1));
     
+    vars.pos.N_desired(i) = vars.pos.N_desired(i-1);
+    vars.pos.E_desired(i) = vars.pos.E_desired(i-1);
 end

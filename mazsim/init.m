@@ -1,4 +1,4 @@
-function vars = init(steps)
+function vars = init(steps, num_targets)
 
     %accelerations
     a = struct('N', zeros(1,steps), ...
@@ -14,19 +14,29 @@ function vars = init(steps)
         'E', zeros(1,steps), ...
         'D', zeros(1,steps));
     
-    v.N(1) = 5;
+    v.N(1) = 0;
     v.E(1) = 0;
     v.D(1) = 0;
     
     %positions
     pos = struct('N', zeros(1,steps), ...
         'E', zeros(1,steps), ...
-        'D', zeros(1,steps));
+        'D', zeros(1,steps), ...
+        'N_desired', zeros(1,steps), ...
+        'E_desired', zeros(1,steps), ...
+        'N_targets', zeros(1,num_targets), ...
+        'E_targets', zeros(1,num_targets), ...
+        'r_targets', zeros(1,steps), ...
+        'target_idx', 1);
     
     pos.N(1) = 0;
     pos.E(1) = 0;
     pos.D(1) = -100;
-    
+    pos.N_targets(1:3) = [150, 20, 10];
+    pos.E_targets(1:3) = [-50, -20, 20];
+    pos.N_desired(1:3) = pos.N_targets(1);
+    pos.E_desired(1:3) = pos.E_targets(1);
+    pos.r_targets(1:3) = [5, 10, 5];
     %principal axes (Roll, Pitch, Yaw)
     axes = struct('roll',  zeros(1,steps), ...
         'pitch', zeros(1,steps), ...
@@ -36,17 +46,23 @@ function vars = init(steps)
         'yaw_rate', zeros(1,steps), ...
         'roll_a', zeros(1,steps), ...
         'pitch_a', zeros(1,steps), ...
-        'yaw_a', zeros(1,steps));
+        'yaw_a', zeros(1,steps), ...
+        'roll_desired', zeros(1,steps), ...
+        'pitch_desired', zeros(1,steps), ...
+        'yaw_desired', zeros(1,steps));
     
     axes.roll(1) = 0;
     axes.roll_rate(1) = 0;
     axes.roll_a(1) = 0;
+    axes.roll_desired(1) = 0;
     axes.pitch(1) = 0;
     axes.pitch_rate(1) = 0;
     axes.pitch_a(1) = 0;
-    axes.yaw(1) = 0;
+    axes.pitch_desired(1) = 0;
+    axes.yaw(1) = atan2d(v.E(1), v.N(1));
     axes.yaw_rate(1) = 0;
     axes.yaw_a(1) = 0;
+    axes.yaw_desired(1) = 0;
     
     forces = struct('W', zeros(1,steps), ...
         'L', zeros(1,steps), ...
@@ -57,6 +73,7 @@ function vars = init(steps)
     forces.L(1) = 2.3; %N
     forces.T(1) = 5; %N
     forces.D(1) = 0.2; %N
+   
     
     %Bundle it all together in one struct 
     vars = struct('a', a, ...

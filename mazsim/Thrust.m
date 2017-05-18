@@ -1,3 +1,3 @@
 function t = Thrust(D)
-    t = D;
+    t = 3 *D;
 end
