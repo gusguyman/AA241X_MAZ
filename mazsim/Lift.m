@@ -1,6 +1,8 @@
 function l = Lift(vars, i)
     %TODO - Lift from aircraft dynamics
-    Cl = 0.082 * vars.aircraft.AOA + 0.13;
+    AOA = vars.aircraft.AOA +...
+        (vars.axes.pitch(i) - atan2d(-vars.v.D(i), vars.v.U(i)));
+    Cl = 0.082 * AOA + 0.13;
     
     l = Cl * 0.5 * 1.225 * vars.v.U(i)^2 * vars.aircraft.area;
 end
