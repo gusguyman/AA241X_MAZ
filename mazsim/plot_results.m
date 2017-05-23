@@ -13,9 +13,12 @@ hold on;
 grid on
 plot(vars.pos.E(1:i), vars.pos.N(1:i));
 title('2-D Position[m] vs time[s]')
-circle([vars.pos.E_targets(1), vars.pos.N_targets(1)], vars.pos.r_targets(1));
-circle([vars.pos.E_targets(2), vars.pos.N_targets(2)], vars.pos.r_targets(2));
-circle([vars.pos.E_targets(3), vars.pos.N_targets(3)], vars.pos.r_targets(3));
+for j = 1:vars.targets.count
+        circle([vars.targets.E_total(j), vars.targets.N_total(j)], vars.targets.r_total(j), 'blue');
+end
+for j = 1:length(vars.targets.N)
+        circle([vars.targets.E(j), vars.targets.N(j)], vars.targets.r(j), 'red');
+end
 axis('square')
 xlabel('East -->')
 ylabel('North -->')
@@ -29,10 +32,10 @@ ylabel('North -->')
 zlabel('Up -->')
 end
 
-function l_h=circle(c,r)
+function l_h=circle(c,r, color)
 % function i=circle(centre,radius)
 w=0:0.05:2*pi+0.05;
-l_h=line(c(1)+r*sin(w),c(2)+r*cos(w));
+l_h=line(c(1)+r*sin(w),c(2)+r*cos(w), 'color', color);
 
 %Your example: l=circle([0 0],2);
 end
