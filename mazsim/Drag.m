@@ -1,4 +1,4 @@
 function d = Drag(vars, i)
     %TODO - Drag from aircraft dynamaics
-    d = 0.2;
+    d = 2.5;
 end

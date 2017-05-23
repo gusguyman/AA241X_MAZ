@@ -1,3 +1,3 @@
-function yaw_rate = Yaw_controller(vars, i)
-    yaw_rate = 1 * (vars.axes.yaw_desired(i-1) - vars.axes.yaw(i-1));
-    yaw_rate = max(-20.0, min(yaw_rate, 20.0));
+function vars = Yaw_controller(vars, i)
+    vars.outputs.rudder(i) = max(-1.0, min(vars.gains.yaw.kp * (vars.axes.yaw_desired(i-1) - vars.axes.yaw(i-1)), 1.0));
+    vars.axes.yaw_rate(i) = 20 * vars.outputs.rudder(i) + 15 * (rand - 0.5);

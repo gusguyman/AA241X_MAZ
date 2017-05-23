@@ -1,4 +1,4 @@
-dt = 0.1; %seconds
+dt = 1/10; %seconds
 sim_time = 120; %seconds
 steps = sim_time / dt;
 num_targets = 3;
@@ -14,6 +14,10 @@ for i = 2:steps
     vars.t(i) = vars.t(i-1) + dt;
     vars = Goal_check(vars, i);
     if vars.targets.count > max_targets
+        break;
+    end
+    if vars.pos.D(i) >= 0.0
+        disp('Crash!')
         break;
     end
 end
