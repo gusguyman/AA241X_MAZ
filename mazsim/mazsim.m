@@ -1,5 +1,5 @@
-dt = 1/10; %seconds
-sim_time = 120; %seconds
+dt = 1/60; %seconds
+sim_time = 15; %seconds
 steps = sim_time / dt;
 num_targets = 3;
 max_targets = 10;
@@ -28,3 +28,12 @@ vars3 = vars;
 toc
 %%
 Plot_results(vars, i);
+%%
+% AOA = vars.aircraft.AOA +...
+% (vars.axes.pitch - atan2d(-vars.v.D, vars.v.U));
+% Plot_vs_time(AOA, vars, i)
+% Plot_vs_time(vars.axes.pitch, vars, i)
+% Plot_vs_time(vars.forces.L, vars, i)
+% Plot_vs_time(vars.forces.D, vars, i)
+V = sqrt(vars.v.U.^2 + vars.v.W.^2);
+Plot_vs_time(V, vars, i)
